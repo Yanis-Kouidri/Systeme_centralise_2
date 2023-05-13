@@ -1,0 +1,22 @@
+Implantation de la mémoire virtuelle telle que vue en cours/TD.
+
+1/ étudier test_memvirt0.c
+
+2/ (éventuellement) modifier le Makefile en enlevant memvirt.o pour tester
+   avec l'implantation présente dans la bibliothèque déjà compilée :
+	$(CC) $(LDFLAGS) -o $@ test_memvirt0.o $(LDLIBS)
+
+3/ Compléter memvirt.c et tester.
+   Note : les attributs "valide" et "modifiee" de descripteur_page_centrale
+   ne servent que pour la version suivante.
+
+4) Faire la version optimisée qui évite de réécrire en swap des pages non
+   modifiées.
+
+Tests :
+- test_memvirt0 : petit test avec 2 processus, 2 pages virtuelles et 4 pages de swap.
+  chaque processus écrit un message spécifique et vérifie qu'il le retrouve.
+- test_memvirt1 : 10 processus, 10 pages virtuelles.
+  chaque processus écrit et lit aléatoire 50 pages en vérifiant qu'il trouve ses
+  informations privées.
+- test_memvirt2 : idem, avec la préemption activée.

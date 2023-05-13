@@ -1,0 +1,55 @@
+                              TP1: coroutines
+                              ===============
+
+Noyau et compilation
+--------------------
+
+Utiliser le Makefile.
+
+L'interface coroutines.h (simplifiée)
+-------------------------------------
+
+/* Le type coroutine_t est un type opaque */
+typedef struct coroutine *coroutine_t;
+
+/* pour debugger */
+extern int cor_verbose;
+
+coroutine_t cor_creer (char *nom, void (*code) (void *arg), void *arg);
+void cor_transferer (coroutine_t suspendue, coroutine_t active);
+
+
+Exercices
+---------
+
+0) Exemple 2 du cours - fourni complet.
+
+1) Écrire un programme qui affiche 1,2,3,4,5 avec 4 coroutines :
+    - une procédure affiche 1 et 3
+    - une procédure affiche 2 et 5
+    - une procédure affiche 4
+    - le programme conclut avec un message indiquant la fin.
+   (squelette disponible dans exo1.c)
+
+2) On souhaite réaliser un distributeur de travaux. Chaque travail (supposé
+   long) est décomposé en trois parties. Entre chaque partie, le travail
+   doit redonner la main au distributeur pour donner une chance aux autres
+   travaux de progresser.
+   (squelette disponible dans exo2.c)
+
+3) Écrire un programme réalisant dix alternances ping/pong.
+   (squelette disponible dans exo3.c)
+
+4) Idem 3, mais avec une seule procédure ping_or_pong, et en passant en
+   paramètre le message à afficher.
+   Il est interdit d'utiliser tout mécanisme qui permet de tester quel
+   message est en cours d'affichage (que ce soit une comparaison avec texte,
+   une variable tour qui alterne, ...)
+   (squelette disponible dans exo4.c)
+
+5) Un jeu stupide, avec 4 joueurs: bleu, vert, jaune, rouge.
+   Quand bleu à la main, il la donne à vert, jaune ou rouge (aléatoirement).
+   Quand vert à la main, il la donne à bleu ou rouge.
+   Quand rouge à la main, il la donne à vert ou bleu.
+   Quand jaune à la main, il la donne à vert ou retourne au programme principal qui termine.
+   On démarre par l'un quelconque des joueurs.

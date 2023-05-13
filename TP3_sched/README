@@ -1,0 +1,64 @@
+                              TP3: scheduling
+                       (ordonnancement à court terme)
+                              ===============
+
+* Objectif 1 : implanter une politique d'ordonnancement pour le choix du
+processus élu, qui utilise les priorités et qui soit équitable.
+ - priorité: un processus de priorité i sera i/j fois plus souvent choisi
+   qu'un processus de priorité j;
+ - équitable: tout processus est éventuellement choisi (il n'y a jamais
+   famine d'accès au CPU).
+
+* Principe: chaque processus possède une priorité fixe (ci après dénommée
+priorité maximale) et une priorité courante. La priorité courante reflète le
+fait qu'un processus a été "un peu" choisi :
+ - l'ordonnanceur choisit en se basant sur la priorité courante : le
+   processus choisi est le plus prioritaire et le plus ancien dans ce
+   niveau de priorité (gestion FIFO de chaque niveau) ;
+ - initialement, la priorité courante d'un processus est égale à sa priorité
+   maximale ;
+ - chaque fois qu'un processus est choisi, sa priorité courante décroît ;
+ - quand tous les processus ont leur priorité courante à 0, on les remet
+   dans l'état initial (leur priorité courante redevient leur priorité
+   maximale).
+
+* Mise en oeuvre:
+Chaque processus possède une donnée spécifique (TSD) contenant sa priorité
+maximale et sa priorité courante. Cette structure est accessible par get_info().
+On utilise par ailleurs une file d'attente pour chaque niveau de priorité.
+
+* Pour s'inspirer: scheduler-fifo.c contient une implantation de la
+politique basique vue en cours : politique FIFO sans priorité (chaque
+processus est choisi à tour de rôle)
+
+* Tests:
+ - test_sched0 appelle directement les primitives de l'ordonnanceur
+   (ajouter_pret et choisir_elu). On vérifie sur ce scénario particulier que
+   le choix du processus élu est bon.
+
+ - test_sched1 est une généralisation de ping/pong. Il permet surtout de
+   vérifier que votre ordonnanceur ne plante pas, sans pouvoir vérifier si
+   la politique est correcte.
+
+ - test_sched2 crée trois processus de priorités différentes, avec
+   préemption activée. Chaque processus boucle en incrémentant un compteur.
+   Les rapports entre les valeurs des compteurs doivent être comparables au
+   rapport des priorités.
+
+ - Il est intéressant de comparer avec l'ordonnancement par défaut ou
+   l'implantation du noyau. Dans le Makefile, commenter la ligne
+   'SCHEDULER = scheduler-dynamique.o' et décommenter la ligne '#SCHEDULER ='.
+   Penser à faire 'make clean' avant de recompiler.
+
+* À faire:
+  - scheduler-dynamique.c : les seules fonctions à modifier sont
+    sched_prio_ajouter_pret (un processus devient prêt) et
+    sched_prio_choisir_elu (choix du prochain processus à devenir élu).
+
+================================================================
+
+Objectif 2 : implanter un ordonnanceur aléatoire : scheduler-aleat.c
+
+Pour tester, éditer le Makefile (ligne SCHEDULER=...) et modifier
+test_sched{1,2}.c pour utiliser ce scheduler (ligne sched_set_scheduler).
+Quelles différences observe-t-on ?
