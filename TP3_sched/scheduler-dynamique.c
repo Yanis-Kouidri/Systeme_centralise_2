@@ -92,7 +92,14 @@ static pret_t get_info (processus_t qui)
  * correspondant à la priorité courante de p). */
 static void sched_prio_ajouter_pret (processus_t qui)
 {
+    pret_t mon_pret = get_info(qui);
+
+    int prio_pret = mon_pret->prio_courante;
+
+    queue_add( &(les_prets[prio_pret]), qui);
+
     /* XXXX A COMPLETER XXXX */
+    
 }
 
 /* Extrait le processus en tête des prêts.
