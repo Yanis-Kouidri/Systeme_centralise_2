@@ -40,6 +40,7 @@ static void ping_or_pong (void *texte)
     }
     printf ("%s a fini\n", (char *)texte);
     proc_continuer(pmain);
+    proc_suspendre();
 }
 
 
