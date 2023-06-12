@@ -17,7 +17,12 @@ memvirt.o : memvirt.c
 
 test_memvirt0.o :
 test_memvirt0 : test_memvirt0.o memvirt.o
-	$(CC) $(LDFLAGS) -o $@ test_memvirt0.o memvirt.o $(LDLIBS)
+# Avec mon memvirt.o
+#	$(CC) $(LDFLAGS) -o $@ test_memvirt0.o memvirt.o $(LDLIBS) 
+# Avec son memvirt :
+	$(CC) $(LDFLAGS) -o $@ test_memvirt0.o $(LDLIBS) 
+
+
 
 test_memvirt1.o :
 test_memvirt1 : test_memvirt1.o memvirt.o
