@@ -23,10 +23,8 @@ processus_t pmain, p1, p2;
 
 
 void ping(void *unused) {
-
-    if (!proc_suis_je_seul()) { // S'il ne reste plus que moi je commence le Ping Pong, sinon je me suspend
-        proc_suspendre();
-    }
+    proc_continuer(pmain);
+    proc_suspendre();
 
     int i;
     for (i = 0; i < N; i++) {
@@ -41,13 +39,8 @@ void ping(void *unused) {
 
 void pong(void *unused) {
 
-    if (proc_suis_je_seul()) { // Si je suis le seul, ça veut dire que p1 à commencé donc je le continue
-        proc_continuer(p1);
-        proc_suspendre();
-
-    } else { //Si je ne suis pas le seul, ça veut dire que p1 n'a pas été initialisé donc je l'initialise en me suspendant
-        proc_suspendre();
-    }
+    proc_continuer(p1);
+    proc_suspendre();
 
     int i;
     for (i = 0; i < N; i++) {
@@ -62,14 +55,15 @@ int main ()
 {
     sched_set_scheduler (&sched_aleatoire); /* ça devrait marcher avec */
     proc_init ();
+    pmain = proc_self();
+    printf ("Debut\n");
     
     p1 = proc_activer("P1", ping, NULL);
-    p2 = proc_activer("P2", pong, NULL);
-
-    pmain = proc_self();
-
-    printf ("Debut\n");
     proc_suspendre();
+
+    p2 = proc_activer("P2", pong, NULL);
+    proc_suspendre();
+    
     printf ("Fin\n");
     return 0;
 }

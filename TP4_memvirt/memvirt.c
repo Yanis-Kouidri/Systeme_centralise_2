@@ -260,6 +260,7 @@ void MV_init (int nbpages_centr, int nbpages_swap)
 
     /* Crée la clef pour les données de la MV privées à chaque processus. */
     /* XXXX A COMPLETER XXXX */
+    MV_clef = TSD_creer_clef(NULL); // Je crée la clef (sans destructeur)
 
     /* Le processus principal est aussi un processus: initialisation de ses
      * données privées. */
